@@ -1,12 +1,12 @@
 
 import Container from '@mui/material/Container';
 
-import Routes from '../../../routes';
+import AppRoutes from '../../../routes';
 
 const Content = () => {
   return (
     <Container maxWidth="lg" sx={{ mt: 4, mb: 4 }}>
-      <Routes />
+      <AppRoutes />
     </Container>
   )
 }
