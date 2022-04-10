@@ -4,11 +4,11 @@ import { db } from "../../../firebase-config";
 import moment from 'moment';
 import { toDateTime } from '../../../utils/date';
 
-export const currentUserProfileID = "pg9wefMNwiB1S9u8IGfT";
+// export const currentUserProfileID = "pg9wefMNwiB1S9u8IGfT";
 
 export const getUserProfile = async (userprofileID = "") => {
     try {
-      const userProfileRef = doc(db, "users", currentUserProfileID);
+      const userProfileRef = doc(db, "users", userprofileID);
       const userProfileData = await getDoc(userProfileRef);
 
       return userProfileData.data();

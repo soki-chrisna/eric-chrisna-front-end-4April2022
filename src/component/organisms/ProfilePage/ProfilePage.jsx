@@ -10,14 +10,16 @@ import TableHead from '@mui/material/TableHead';
 import TableRow from '@mui/material/TableRow';
 import Typography from '@mui/material/Typography';
 import Link from '@mui/material/Link';
-import { getUserProfile, getStartDate, geEndDate, currentUserProfileID } from './ProfilePageDomain';
+import { getUserProfile, getStartDate, geEndDate } from './ProfilePageDomain';
+
+export const currentUserProfileID = "pg9wefMNwiB1S9u8IGfT";
 
 const ProfilePage = () => {
   const [userProfileData, setUserProfileData] = useState({});
 
   useEffect(() => {
     const fetchInitialData = async () => {
-      const data = await getUserProfile();
+      const data = await getUserProfile(currentUserProfileID);
       setUserProfileData(data);
     };
     fetchInitialData();
@@ -159,7 +161,7 @@ const ProfilePage = () => {
         </Grid>
         <Grid container>
           <Grid item>
-            <Link color="primary" href={`/edit-profile?userProfile=${currentUserProfileID}`} sx={{ mt: 3 }}>
+            <Link color="primary" href={`/edit-profile/${currentUserProfileID}`} sx={{ mt: 3 }}>
               Edit Profile
             </Link>
           </Grid>
