@@ -1,5 +1,6 @@
 import { Router, Route, Routes, Switch } from "react-router-dom";
 import ProfilePage from '../component/organisms/ProfilePage'
+import EditProfilePage from '../component/organisms/EditProfilePage'
 import { history } from "../utils/history";
 
 import Grid from '@mui/material/Grid';
@@ -12,6 +13,7 @@ const AppRoutes = () => {
         <Paper sx={{ p: 2, display: 'flex', flexDirection: 'column' }}>
           <Routes history={history}>
             <Route path="/" element={<ProfilePage />}  exact />
+            <Route path="/edit-profile/:userProfileID" element={<EditProfilePage />}  exact />
           </Routes>
         </Paper>
       </Grid>
