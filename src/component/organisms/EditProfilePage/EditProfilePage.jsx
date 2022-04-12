@@ -45,6 +45,7 @@ const EditProfilePage = () => {
       setEnteredEndDate(getSecondsToDateValue(data.endDate?.seconds));
     };
     setInitialData();
+  }, [URLParams.userProfileID]);
 
   const onStartDateChangeHandler = (enteredStartDateValue) => {
     const startDate =  geFormattedStartDate(enteredStartDateValue);
