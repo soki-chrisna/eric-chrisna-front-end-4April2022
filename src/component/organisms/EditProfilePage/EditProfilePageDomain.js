@@ -1,4 +1,4 @@
-import { collection, getDoc, doc } from "firebase/firestore";
+import { collection, getDoc, doc, updateDoc } from "firebase/firestore";
 import UserProfileService from "../../../api/services/UserProfileService";
 import { db } from "../../../firebase-config";
 import moment from 'moment';
@@ -17,11 +17,10 @@ export const getUserProfile = async (userprofileID = "") => {
     }
 };
 
-export const updateUserProfile = async (userprofileID = "") => {
+export const updateUserProfile = async (userprofileID = "", updatedUserProfileValues) => {
     try {
-      const userProfileRef = collection(db, "users")
-      const respone = await UserProfileService.getUserProfileByI;
-      return respone;
+      const userDoc = doc(db, "users", userprofileID);
+      await updateDoc(userDoc, updatedUserProfileValues);
     } catch (error) {
       throw Error(error);
     }
