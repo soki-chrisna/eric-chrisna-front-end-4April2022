@@ -39,9 +39,6 @@ export const getSecondsToDateValue = (dateValueInSeconds) => {
   return dateObject;
 };
 
-export const getEndDateValue = (userEndDate) => {
-  if (!userEndDate) return "";
-
-  const dateObject = toDateTime(userEndDate);
-  return moment(dateObject).format('DD MMM, YYYY');
-};
+// export const prepareStartDateToSecondsValue = (userProfileUpdatedValues) => {
+//   userProfileUpdatedValues.startDate = 
+// };
