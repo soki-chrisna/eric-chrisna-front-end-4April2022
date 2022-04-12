@@ -68,17 +68,11 @@ const EditProfilePage = () => {
   };
 
   return (
-    <Formik
+    userProfileDataIsNotEmpty && <Formik
        initialValues={{
-         profileImage: userProfileData.name,
-         name: userProfileData.name,
-         age: userProfileData.age,
-         startDate: '',
-         endDate: '',
-         jobTitle: '',
-         company: '',
-         companyLogo: '',
-         jobDesc: '',
+         ...userProfileData, 
+         startDate: enteredStartDate,
+         endDate: enteredEndDate,
         }}
        validate={values => {
          const errors = {};
