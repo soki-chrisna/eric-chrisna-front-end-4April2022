@@ -95,6 +95,8 @@ const EditProfilePage = () => {
          setTimeout(() => {
            alert(JSON.stringify(values, null, 2));
            setSubmitting(false);
+
+           onFormSubmitted(values);
          }, 400);
        }}
      >
