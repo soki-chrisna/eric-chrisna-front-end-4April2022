@@ -29,18 +29,17 @@ export const updateUserProfile = async (userprofileID = "", updatedUserProfileVa
 export const geFormattedStartDate = (enteredStartDate) => {
   if (!enteredStartDate) return "";
 
-  // const dateObject = toDateTime(enteredStartDate);
   return moment(enteredStartDate, "M/D/YYYY H:mm").valueOf();
 };
-export const getStartDateValue = (startDateValue) => {
-  if (!startDateValue) return null;
 
-  const dateObject = toDateTime(startDateValue);
-  // return moment(enteredStartDate, "M/D/YYYY H:mm").valueOf();
+export const getSecondsToDateValue = (dateValueInSeconds) => {
+  if (!dateValueInSeconds) return null;
+
+  const dateObject = toDateTime(dateValueInSeconds);
   return dateObject;
 };
 
-export const geEndDate = (userEndDate) => {
+export const getEndDateValue = (userEndDate) => {
   if (!userEndDate) return "";
 
   const dateObject = toDateTime(userEndDate);
