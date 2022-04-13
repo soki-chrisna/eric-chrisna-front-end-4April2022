@@ -172,6 +172,7 @@ const EditProfilePage = () => {
                     autoComplete="given-name"
                     variant="standard"
                     value={userProfileData.age || ""}
+                    onChange={handleChange}
                   />
                 </Grid>
               </Grid>
