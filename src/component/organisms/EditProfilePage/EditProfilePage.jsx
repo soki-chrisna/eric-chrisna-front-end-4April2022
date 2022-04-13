@@ -14,10 +14,12 @@ import Typography from '@mui/material/Typography';
 import TextareaAutosize from '@mui/base/TextareaAutosize';
 import Link from '@mui/material/Link';
 import { getUserProfile, getStartDate, geEndDate } from '../ProfilePage/ProfilePageDomain';
-import { geFormattedStartDate, getStartDateValue } from '../EditProfilePage/EditProfilePageDomain';
+import { geFormattedStartDate, getSecondsToDateValue, updateUserProfile } from '../EditProfilePage/EditProfilePageDomain';
 import { AdapterDateFns } from '@mui/x-date-pickers/AdapterDateFns';
 import { LocalizationProvider } from '@mui/x-date-pickers/LocalizationProvider';
 import { DatePicker } from '@mui/x-date-pickers/DatePicker';
+import axios from 'axios';
+import { setUploadedImagePreview } from '../../../utils/imageUpload';
 
 // import TextField from '../../atoms/TextField/TextFieldBase';
 import TextField from '@mui/material/TextField';
