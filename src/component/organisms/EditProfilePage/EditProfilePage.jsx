@@ -148,7 +148,8 @@ const EditProfilePage = () => {
                     fullWidth
                     autoComplete="given-name"
                     variant="standard"
-                    value={userProfileData.name || ""}
+                    value={values.name}
+                    onChange={handleChange}
                   />
                 </Grid>
               </Grid>
@@ -192,9 +193,10 @@ const EditProfilePage = () => {
                     <Grid item>
                       <LocalizationProvider dateAdapter={AdapterDateFns}>
                         <DatePicker
-                          value={enteredStartDate || null}
+                          value={enteredStartDate}
                           onChange={onStartDateChangeHandler}
                           renderInput={(params) => <TextField {...params} />}
+                          name="startDate"
                         />
                       </LocalizationProvider>
                     </Grid>
@@ -212,9 +214,10 @@ const EditProfilePage = () => {
                     <Grid item>
                       <LocalizationProvider dateAdapter={AdapterDateFns}>
                         <DatePicker
-                          value={enteredEndDate || null}
+                          value={enteredEndDate}
                           onChange={onEndDateChangeHandler}
                           renderInput={(params) => <TextField {...params} />}
+                          name="endDate"
                         />
                       </LocalizationProvider>
                     </Grid>
@@ -237,7 +240,8 @@ const EditProfilePage = () => {
                     fullWidth
                     autoComplete="given-name"
                     variant="standard"
-                    value={userProfileData.jobTitle || ""}
+                    value={values.jobTitle}
+                    onChange={handleChange}
                   />
                 </Grid>
               </Grid>
@@ -257,7 +261,8 @@ const EditProfilePage = () => {
                     fullWidth
                     autoComplete="given-name"
                     variant="standard"
-                    value={userProfileData.company || ""}
+                    value={values.company}
+                    onChange={handleChange}
                   />
                 </Grid>
               </Grid>
@@ -304,7 +309,9 @@ const EditProfilePage = () => {
                     placeholder="Empty"
                     style={{ width: 200 }}
                     minRows={3}
-                    defaultValue={userProfileData.jobDesc}
+                    name="jobDesc"
+                    value={values.jobDesc}
+                    onChange={handleChange}
                   />
                 </Grid>
               </Grid>
