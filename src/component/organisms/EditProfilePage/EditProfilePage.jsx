@@ -31,11 +31,12 @@ const EditProfilePage = () => {
   const [enteredStartDate, setEnteredStartDate] = useState(null);
   const [enteredEndDate, setEnteredEndDate] = useState(null);
 
-  const [selectedCompanylogo, setSelectedCompanyLogo] = useState(null);
-  const [selectedCompanyLogoURL, setSelectedCompanyLogoURL] = useState(null);
+  const [selectedCompanyLogo, setSelectedCompanyLogo] = useState(null);
+  const [selectedCompanyLogoURL, setSelectedCompanyLogoURL] = useState("");
+  const [selectedProfilePicture, setSelectedProfilePicture] = useState(null);
 
-  const [formattedStartDate, setFormattedStartDate] = useState(0);
-  const [formattedEndDate, setFormatteEndtDate] = useState(0);
+  const [formattedStartDateToSeconds, setFormattedStartDateToSeconds] = useState(0);
+  const [formattedEndDateToSeconds, setFormattedEndDateToSeconds] = useState(0);
 
   useEffect(() => {
     const setInitialData = async () => {
@@ -58,12 +59,46 @@ const EditProfilePage = () => {
     setEnteredEndDate(enteredEndDateValue);
   };
 
-  const onCompanyLogoChangeHandler = ({ target }) => {
-    setSelectedCompanyLogo(target.files[0]);
-    const reader = new FileReader();
-    const url = reader.readAsDataURL(target.files[0]);
-    setSelectedCompanyLogoURL(url);
+  const onProfilePictureChangeHandler = ({ target }) => {
+    const selectedProfilePictureFile = target.files[0]
+    const formData = new FormData();
+    formData.append("image", selectedProfilePictureFile, selectedProfilePictureFile.name);
+
+    setSelectedProfilePicture(selectedProfilePictureFile.name);
+
+    setUploadedImagePreview({
+      callback: setSelectedProfilePicture,
+      imageFile: selectedProfilePictureFile,
+    });
   };
+  const onCompanyLogoChangeHandler = ({ target }) => {
+    const companyLogoFile = target.files[0]
+    const formData = new FormData();
+    formData.append("image", companyLogoFile, companyLogoFile.name);
+    
+    setSelectedCompanyLogo(companyLogoFile.name);
+
+    setUploadedImagePreview({
+      callback: setSelectedCompanyLogoURL,
+      imageFile: companyLogoFile,
+    });
+  };
+
+  const uploadUserProfilePicture = () => {
+    axios.post("gs://glints-f2206.appspot.com", selectedCompanyLogo);
+  };
+  const uploadCompanyLogo = () => {
+    axios.post("gs://glints-f2206.appspot.com", selectedCompanyLogo);
+  };
+
+  const onFormSubmitted = (updatedUserProfileValues) => {
+    updatedUserProfileValues.startDate= enteredStartDate;
+    updatedUserProfileValues.endDate= enteredEndDate;
+
+    updateUserProfile(URLParams.userProfileID, updatedUserProfileValues);
+  };
+
+  const userProfileDataIsNotEmpty = userProfileData.hasOwnProperty("name");
 
   return (
     userProfileDataIsNotEmpty && <Formik
@@ -128,10 +163,30 @@ const EditProfilePage = () => {
                 <Grid item>
                   <CardMedia
                     component="img"
-                    sx={{ width: 160, display: { xs: 'none', sm: 'block' } }}
-                    image={null}
-                    alt="Profile Image"
+                    sx={{ width: 250, display: { xs: 'none', sm: 'block' } }}
+                    image={selectedProfilePicture}
+                    alt="Company Logo"
                   />
+                  <Typography component="h3" variant="h6">
+                    {values.profilePicture}
+                  </Typography>
+                  <Button
+                    variant="contained"
+                    component="label"
+                  >
+                    Upload File
+                    <input
+                      type="file"
+                      hidden
+                      name="profilePicture"
+                      accept='image/png, image/jpg'
+                      onChange={(event) => {
+                        handleChange(event);
+                        onProfilePictureChangeHandler(event);
+                      }}
+                      id="profile-picture"
+                    />
+                  </Button>
                 </Grid>
               </Grid>
               <Grid container>
@@ -273,7 +328,7 @@ const EditProfilePage = () => {
                 <Grid item>
                   <CardMedia
                     component="img"
-                    sx={{ width: 160, display: { xs: 'none', sm: 'block' } }}
+                    sx={{ width: 250, display: { xs: 'none', sm: 'block' } }}
                     image={selectedCompanyLogoURL}
                     alt="Company Logo"
                   />
@@ -285,7 +340,13 @@ const EditProfilePage = () => {
                     <input
                       type="file"
                       hidden
-                      onChange={onCompanyLogoChangeHandler}
+                      accept='image/png, image/jpg'
+                      onChange={(event) => {
+                        handleChange(event);
+                        onCompanyLogoChangeHandler(event);
+                      }}
+                      // onChange={onCompanyLogoChangeHandler}
+                      id="company-logo"
                     />
                   </Button>
                 </Grid>
@@ -293,8 +354,7 @@ const EditProfilePage = () => {
               <Grid container>
                 <Grid item>
                   <Typography component="h3" variant="h6">
-                    {selectedCompanylogo ? selectedCompanylogo.name : "Select Image"}
-                    {console.log(selectedCompanyLogoURL)}
+                    {selectedCompanyLogo ? selectedCompanyLogo.name : "Select Image"}
                   </Typography>
                 </Grid>
               </Grid>
