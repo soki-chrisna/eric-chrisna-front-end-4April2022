@@ -110,6 +110,14 @@ const EditProfilePage = () => {
     updateUserProfile(URLParams.userProfileID, updatedUserProfileValues);
   };
 
+  const onSwitchChangeHandler = ({target}) => {
+    const switchName = target.name;
+    const switchValue = target.checked;
+    setFieldsDisplayState((prevFieldsDisplayState) => {
+      return {...prevFieldsDisplayState, [switchName]: switchValue}
+    });
+  }
+
   const userProfileDataIsNotEmpty = userProfileData.hasOwnProperty("name");
 
   return (
