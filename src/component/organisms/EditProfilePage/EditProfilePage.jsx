@@ -36,6 +36,16 @@ const EditProfilePage = () => {
   const [selectedProfilePicture, setSelectedProfilePicture] = useState(null);
 
   const [formattedStartDateToSeconds, setFormattedStartDateToSeconds] = useState(0);
+  const [fieldsDisplayState, setFieldsDisplayState] = useState({
+    shouldShowProfilePicture: false,
+    shouldShowAge: false,
+    shouldShowCompany: false,
+    shouldShowEndDate: false,
+    shouldShowJobDescription: false,
+    shouldShowJobTitle: false,
+    shouldShowName: false,
+    shouldShowStartDate: false,
+  });
   const [formattedEndDateToSeconds, setFormattedEndDateToSeconds] = useState(0);
 
   useEffect(() => {
@@ -46,6 +56,8 @@ const EditProfilePage = () => {
 
       setEnteredStartDate(getSecondsToDateValue(data.startDate?.seconds));
       setEnteredEndDate(getSecondsToDateValue(data.endDate?.seconds));
+
+      prepareFieldsDisplayState(data, setFieldsDisplayState);
     };
     setInitialData();
   }, [URLParams.userProfileID]);
