@@ -30,7 +30,7 @@ import { setUploadedImagePreview } from '../../../utils/imageUpload';
 
 import FieldsWithToggle from '../../molecules/FieldsWithToggle';
 import ProfilePicture from '../../molecules/EditProfile/ProfilePicture';
-import UserName from '../../molecules/EditProfile/UserName';
+import UserProfileField from '../../molecules/EditProfile/UserProfileField';
 
 const visibilityStyling = { display: "flex", alignItems: "center", justifyContent: "flex-end"};
 
@@ -196,7 +196,7 @@ const EditProfilePage = () => {
                 uploadedImageTitle={values.profilePicture}
                 selectedProfilePicture={selectedProfilePicture}
               />
-              <UserName
+              <UserProfileField
                 fieldsWithToggleProps={{
                   switchName: "shouldShowName",
                   switchLabel: "Visible",
@@ -206,33 +206,20 @@ const EditProfilePage = () => {
                 fieldName="name"
                 handleChange={handleChange}
                 inputValue={values.name}
+                fieldLabel="Name"
               />
-              <Grid container xs={12}>
-                <Grid item xs={8}>
-                  <Typography component="h3" variant="h6">
-                    Age
-                  </Typography>
-                </Grid>
-                <Grid item sx={visibilityStyling} xs={2}>
-                  <FormGroup>
-                    <FormControlLabel control={<Switch defaultChecked />} label="Visible" />
-                  </FormGroup>
-                </Grid>
-              </Grid>
-              <Grid container>
-                <Grid item>
-                  <TextField
-                    required
-                    id="age"
-                    name="age"
-                    fullWidth
-                    autoComplete="given-name"
-                    variant="standard"
-                    value={userProfileData.age || ""}
-                    onChange={handleChange}
-                  />
-                </Grid>
-              </Grid>
+              <UserProfileField
+                fieldsWithToggleProps={{
+                  switchName: "shouldShowAge",
+                  switchLabel: "Visible",
+                  switchCheckedValue: fieldsDisplayState.shouldShowAge,
+                  onSwitchChangeHandler: onSwitchChangeHandler,
+                }}
+                fieldName="name"
+                handleChange={handleChange}
+                inputValue={values.age}
+                fieldLabel="Age"
+              />
               <Grid container xs={12}>
                 <Grid item xs={8}>
                   <Typography component="h3" variant="h6">
@@ -289,58 +276,30 @@ const EditProfilePage = () => {
                   </Grid>
                 </Grid>
               </Grid>
-              <Grid container xs={12}>
-                <Grid item xs={8}>
-                  <Typography component="h3" variant="h6">
-                    Job Title
-                  </Typography>
-                </Grid>
-                <Grid item sx={visibilityStyling} xs={2}>
-                  <FormGroup>
-                    <FormControlLabel control={<Switch defaultChecked />} label="Visible" />
-                  </FormGroup>
-                </Grid>
-              </Grid>
-              <Grid container>
-                <Grid item>
-                  <TextField
-                    required
-                    id="jobTitle"
-                    name="jobTitle"
-                    fullWidth
-                    autoComplete="given-name"
-                    variant="standard"
-                    value={values.jobTitle}
-                    onChange={handleChange}
-                  />
-                </Grid>
-              </Grid>
-              <Grid container xs={12}>
-                <Grid item xs={8}>
-                  <Typography component="h3" variant="h6">
-                    Company
-                  </Typography>
-                </Grid>
-                <Grid item sx={visibilityStyling} xs={2}>
-                  <FormGroup>
-                    <FormControlLabel control={<Switch />} label="Visible" />
-                  </FormGroup>
-                </Grid>
-              </Grid>
-              <Grid container>
-                <Grid item>
-                  <TextField
-                    required
-                    id="company"
-                    name="company"
-                    fullWidth
-                    autoComplete="given-name"
-                    variant="standard"
-                    value={values.company}
-                    onChange={handleChange}
-                  />
-                </Grid>
-              </Grid>
+              <UserProfileField
+                fieldsWithToggleProps={{
+                  switchName: "shouldShowJobTitle",
+                  switchLabel: "Visible",
+                  switchCheckedValue: fieldsDisplayState.shouldShowJobTitle,
+                  onSwitchChangeHandler: onSwitchChangeHandler,
+                }}
+                fieldName="name"
+                handleChange={handleChange}
+                inputValue={values.jobTitle}
+                fieldLabel="Job Title"
+              />
+              <UserProfileField
+                fieldsWithToggleProps={{
+                  switchName: "shouldShowCompany",
+                  switchLabel: "Visible",
+                  switchCheckedValue: fieldsDisplayState.shouldShowCompany,
+                  onSwitchChangeHandler: onSwitchChangeHandler,
+                }}
+                fieldName="name"
+                handleChange={handleChange}
+                inputValue={values.company}
+                fieldLabel="Company"
+              />
               <Grid container xs={12}>
                 <Grid item xs={8}>
                   <CardMedia
@@ -379,6 +338,18 @@ const EditProfilePage = () => {
                   </Typography>
                 </Grid>
               </Grid>
+              <UserProfileField
+                fieldsWithToggleProps={{
+                  switchName: "shouldShowJobDesc",
+                  switchLabel: "Visible",
+                  switchCheckedValue: fieldsDisplayState.shouldShowJobDesc,
+                  onSwitchChangeHandler: onSwitchChangeHandler,
+                }}
+                fieldName="name"
+                handleChange={handleChange}
+                inputValue={values.jobDesc}
+                fieldLabel="Job Description"
+              />
               <Grid container xs={12}>
                 <Grid item xs={8}>
                   <Typography component="h3" variant="h6">

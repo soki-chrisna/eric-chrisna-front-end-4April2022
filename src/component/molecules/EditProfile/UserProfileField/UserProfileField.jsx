@@ -5,10 +5,10 @@ import Typography from '@mui/material/Typography';
 import TextField from '@mui/material/TextField';
 import Grid from '@mui/material/Grid';
 
-const ProfilePicture = ({
+const UserProfileField = ({
   fieldsWithToggleProps = {},
   handleChange, fieldName,
-  inputValue,
+  inputValue, fieldLabel
 }) => {
   return (
     <FieldsWithToggle
@@ -17,7 +17,7 @@ const ProfilePicture = ({
       <Grid container xs={12}>
         <Grid item xs={6}>
           <Typography component="h3" variant="h6">
-            Name
+            {fieldLabel}
           </Typography>
         </Grid>
       </Grid>
@@ -39,4 +39,4 @@ const ProfilePicture = ({
   )
 }
 
-export default ProfilePicture;
+export default UserProfileField;
