@@ -15,18 +15,22 @@ import TextareaAutosize from '@mui/base/TextareaAutosize';
 import Switch from '@mui/material/Switch';
 import FormGroup from '@mui/material/FormGroup';
 import FormControlLabel from '@mui/material/FormControlLabel';
+import TextField from '@mui/material/TextField';
 import Link from '@mui/material/Link';
-import { getUserProfile, getStartDate, geEndDate } from '../ProfilePage/ProfilePageDomain';
-import { prepareFieldsDisplayState, getSecondsToDateValue, updateUserProfile } from '../EditProfilePage/EditProfilePageDomain';
+
 import { AdapterDateFns } from '@mui/x-date-pickers/AdapterDateFns';
 import { LocalizationProvider } from '@mui/x-date-pickers/LocalizationProvider';
 import { DatePicker } from '@mui/x-date-pickers/DatePicker';
-import FieldsWithToggle from '../../molecules/FieldsWithToggle';
-import ProfilePicture from '../../molecules/EditProfile/ProfilePicture';
+
+import { useParams } from 'react-router-dom';
+import { getUserProfile, getStartDate, geEndDate } from '../ProfilePage/ProfilePageDomain';
+import { prepareFieldsDisplayState, getSecondsToDateValue, updateUserProfile } from '../EditProfilePage/EditProfilePageDomain';
+
 import { setUploadedImagePreview } from '../../../utils/imageUpload';
 
-import TextField from '@mui/material/TextField';
-import { useParams } from 'react-router-dom';
+import FieldsWithToggle from '../../molecules/FieldsWithToggle';
+import ProfilePicture from '../../molecules/EditProfile/ProfilePicture';
+import UserName from '../../molecules/EditProfile/UserName';
 
 const visibilityStyling = { display: "flex", alignItems: "center", justifyContent: "flex-end"};
 
@@ -192,32 +196,17 @@ const EditProfilePage = () => {
                 uploadedImageTitle={values.profilePicture}
                 selectedProfilePicture={selectedProfilePicture}
               />
-              <Grid container xs={12}>
-                <Grid item xs={8}>
-                  <Typography component="h3" variant="h6">
-                    Name
-                  </Typography>
-                </Grid>
-                <Grid item sx={visibilityStyling} xs={2}>
-                  <FormGroup>
-                    <FormControlLabel control={<Switch defaultChecked />} label="Visible" />
-                  </FormGroup>
-                </Grid>
-              </Grid>
-              <Grid container>
-                <Grid item>
-                  <TextField
-                    required
-                    id="name"
-                    name="name"
-                    fullWidth
-                    autoComplete="given-name"
-                    variant="standard"
-                    value={values.name}
-                    onChange={handleChange}
-                  />
-                </Grid>
-              </Grid>
+              <UserName
+                fieldsWithToggleProps={{
+                  switchName: "shouldShowName",
+                  switchLabel: "Visible",
+                  switchCheckedValue: fieldsDisplayState.shouldShowName,
+                  onSwitchChangeHandler: onSwitchChangeHandler,
+                }}
+                fieldName="name"
+                handleChange={handleChange}
+                inputValue={values.name}
+              />
               <Grid container xs={12}>
                 <Grid item xs={8}>
                   <Typography component="h3" variant="h6">
