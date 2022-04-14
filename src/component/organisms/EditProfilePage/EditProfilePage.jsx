@@ -12,18 +12,23 @@ import Button from '@mui/material/Button';
 import { Formik } from 'formik';
 import Typography from '@mui/material/Typography';
 import TextareaAutosize from '@mui/base/TextareaAutosize';
+import Switch from '@mui/material/Switch';
+import FormGroup from '@mui/material/FormGroup';
+import FormControlLabel from '@mui/material/FormControlLabel';
 import Link from '@mui/material/Link';
 import { getUserProfile, getStartDate, geEndDate } from '../ProfilePage/ProfilePageDomain';
-import { geFormattedStartDate, getSecondsToDateValue, updateUserProfile } from '../EditProfilePage/EditProfilePageDomain';
+import { prepareFieldsDisplayState, getSecondsToDateValue, updateUserProfile } from '../EditProfilePage/EditProfilePageDomain';
 import { AdapterDateFns } from '@mui/x-date-pickers/AdapterDateFns';
 import { LocalizationProvider } from '@mui/x-date-pickers/LocalizationProvider';
 import { DatePicker } from '@mui/x-date-pickers/DatePicker';
-import axios from 'axios';
+import FieldsWithToggle from '../../molecules/FieldsWithToggle';
+import ProfilePicture from '../../molecules/EditProfile/ProfilePicture';
 import { setUploadedImagePreview } from '../../../utils/imageUpload';
 
-// import TextField from '../../atoms/TextField/TextFieldBase';
 import TextField from '@mui/material/TextField';
 import { useParams } from 'react-router-dom';
+
+const visibilityStyling = { display: "flex", alignItems: "center", justifyContent: "flex-end"};
 
 const EditProfilePage = () => {
   const URLParams = useParams();
@@ -35,7 +40,6 @@ const EditProfilePage = () => {
   const [selectedCompanyLogoURL, setSelectedCompanyLogoURL] = useState("");
   const [selectedProfilePicture, setSelectedProfilePicture] = useState(null);
 
-  const [formattedStartDateToSeconds, setFormattedStartDateToSeconds] = useState(0);
   const [fieldsDisplayState, setFieldsDisplayState] = useState({
     shouldShowProfilePicture: false,
     shouldShowAge: false,
@@ -50,7 +54,6 @@ const EditProfilePage = () => {
 
   useEffect(() => {
     const setInitialData = async () => {
-
       const data = await getUserProfile(URLParams.userProfileID);
       setUserProfileData(data);
 
@@ -63,15 +66,13 @@ const EditProfilePage = () => {
   }, [URLParams.userProfileID]);
 
   const onStartDateChangeHandler = (enteredStartDateValue) => {
-    setFormattedStartDateToSeconds(enteredStartDateValue);
     setEnteredStartDate(enteredStartDateValue);
   };
   const onEndDateChangeHandler = (enteredEndDateValue) => {
-    setFormattedStartDateToSeconds(enteredEndDateValue);
     setEnteredEndDate(enteredEndDateValue);
   };
 
-  const onProfilePictureChangeHandler = ({ target }) => {
+  const onProfilePictureChangedHandler = ({ target }) => {
     const selectedProfilePictureFile = target.files[0]
     const formData = new FormData();
     formData.append("image", selectedProfilePictureFile, selectedProfilePictureFile.name);
@@ -96,18 +97,18 @@ const EditProfilePage = () => {
     });
   };
 
-  const uploadUserProfilePicture = () => {
-    axios.post("gs://glints-f2206.appspot.com", selectedCompanyLogo);
-  };
-  const uploadCompanyLogo = () => {
-    axios.post("gs://glints-f2206.appspot.com", selectedCompanyLogo);
-  };
-
   const onFormSubmitted = (updatedUserProfileValues) => {
-    updatedUserProfileValues.startDate= enteredStartDate;
-    updatedUserProfileValues.endDate= enteredEndDate;
+    const preparedUpdatedUserProfileValues = {
+      ...updatedUserProfileValues,
+      startDate: enteredStartDate,
+      endDate: enteredEndDate,
+      ...fieldsDisplayState,
+    };
+    // updatedUserProfileValues.startDate= enteredStartDate;
+    // updatedUserProfileValues.endDate= enteredEndDate;
 
-    updateUserProfile(URLParams.userProfileID, updatedUserProfileValues);
+    // updateUserProfile(URLParams.userProfileID, updatedUserProfileValues);
+    updateUserProfile(URLParams.userProfileID, preparedUpdatedUserProfileValues);
   };
 
   const onSwitchChangeHandler = ({target}) => {
@@ -140,10 +141,10 @@ const EditProfilePage = () => {
        }}
        onSubmit={(values, { setSubmitting }) => {
          setTimeout(() => {
-           alert(JSON.stringify(values, null, 2));
            setSubmitting(false);
-
+           
            onFormSubmitted(values);
+           alert(JSON.stringify(values, null, 2));
          }, 400);
        }}
      >
@@ -158,7 +159,7 @@ const EditProfilePage = () => {
          /* and other goodies */
        }) => (
          <form onSubmit={handleSubmit}>
-           <input
+           {/* <input
              type="email"
              name="email"
              onChange={handleChange}
@@ -172,45 +173,13 @@ const EditProfilePage = () => {
              onChange={handleChange}
              onBlur={handleBlur}
              value={values.password}
-           />
+           /> */}
            {errors.password && touched.password && errors.password}
            <button type="submit" disabled={isSubmitting}>
              Submit
            </button>
-           <Grid container >
-            <Grid item>
-              <Grid container>
-                <Grid item>
-                  <CardMedia
-                    component="img"
-                    sx={{ width: 250, display: { xs: 'none', sm: 'block' } }}
-                    image={selectedProfilePicture}
-                    alt="Company Logo"
-                  />
-                  <Typography component="h3" variant="h6">
-                    {values.profilePicture}
-                  </Typography>
-                  <Button
-                    variant="contained"
-                    component="label"
-                  >
-                    Upload File
-                    <input
-                      type="file"
-                      hidden
-                      name="profilePicture"
-                      accept='image/png, image/jpg'
-                      onChange={(event) => {
-                        handleChange(event);
-                        onProfilePictureChangeHandler(event);
-                      }}
-                      id="profile-picture"
-                    />
-                  </Button>
-                </Grid>
-              </Grid>
-              <Grid container>
-                <Grid item>
+           <Grid container xs={12}>
+            <Grid item xs={12}>
               <ProfilePicture
                 fieldsWithToggleProps={{
                   switchName: "shouldShowProfilePicture",
@@ -223,9 +192,16 @@ const EditProfilePage = () => {
                 uploadedImageTitle={values.profilePicture}
                 selectedProfilePicture={selectedProfilePicture}
               />
+              <Grid container xs={12}>
+                <Grid item xs={8}>
                   <Typography component="h3" variant="h6">
                     Name
                   </Typography>
+                </Grid>
+                <Grid item sx={visibilityStyling} xs={2}>
+                  <FormGroup>
+                    <FormControlLabel control={<Switch defaultChecked />} label="Visible" />
+                  </FormGroup>
                 </Grid>
               </Grid>
               <Grid container>
@@ -242,11 +218,16 @@ const EditProfilePage = () => {
                   />
                 </Grid>
               </Grid>
-              <Grid container>
-                <Grid item>
+              <Grid container xs={12}>
+                <Grid item xs={8}>
                   <Typography component="h3" variant="h6">
                     Age
                   </Typography>
+                </Grid>
+                <Grid item sx={visibilityStyling} xs={2}>
+                  <FormGroup>
+                    <FormControlLabel control={<Switch defaultChecked />} label="Visible" />
+                  </FormGroup>
                 </Grid>
               </Grid>
               <Grid container>
@@ -263,11 +244,16 @@ const EditProfilePage = () => {
                   />
                 </Grid>
               </Grid>
-              <Grid container>
-                <Grid item>
+              <Grid container xs={12}>
+                <Grid item xs={8}>
                   <Typography component="h3" variant="h6">
                     Work Experience
                   </Typography>
+                </Grid>
+                <Grid item sx={visibilityStyling} xs={2}>
+                  <FormGroup>
+                    <FormControlLabel control={<Switch defaultChecked />} label="Visible" />
+                  </FormGroup>
                 </Grid>
               </Grid>
               <Grid container>
@@ -314,11 +300,16 @@ const EditProfilePage = () => {
                   </Grid>
                 </Grid>
               </Grid>
-              <Grid container>
-                <Grid item>
+              <Grid container xs={12}>
+                <Grid item xs={8}>
                   <Typography component="h3" variant="h6">
                     Job Title
                   </Typography>
+                </Grid>
+                <Grid item sx={visibilityStyling} xs={2}>
+                  <FormGroup>
+                    <FormControlLabel control={<Switch defaultChecked />} label="Visible" />
+                  </FormGroup>
                 </Grid>
               </Grid>
               <Grid container>
@@ -335,11 +326,16 @@ const EditProfilePage = () => {
                   />
                 </Grid>
               </Grid>
-              <Grid container>
-                <Grid item>
+              <Grid container xs={12}>
+                <Grid item xs={8}>
                   <Typography component="h3" variant="h6">
                     Company
                   </Typography>
+                </Grid>
+                <Grid item sx={visibilityStyling} xs={2}>
+                  <FormGroup>
+                    <FormControlLabel control={<Switch />} label="Visible" />
+                  </FormGroup>
                 </Grid>
               </Grid>
               <Grid container>
@@ -356,8 +352,8 @@ const EditProfilePage = () => {
                   />
                 </Grid>
               </Grid>
-              <Grid container>
-                <Grid item>
+              <Grid container xs={12}>
+                <Grid item xs={8}>
                   <CardMedia
                     component="img"
                     sx={{ width: 250, display: { xs: 'none', sm: 'block' } }}
@@ -377,10 +373,14 @@ const EditProfilePage = () => {
                         handleChange(event);
                         onCompanyLogoChangeHandler(event);
                       }}
-                      // onChange={onCompanyLogoChangeHandler}
                       id="company-logo"
                     />
                   </Button>
+                </Grid>
+                <Grid item sx={visibilityStyling} xs={2}>
+                  <FormGroup>
+                    <FormControlLabel control={<Switch defaultChecked />} label="Visible" />
+                  </FormGroup>
                 </Grid>
               </Grid>
               <Grid container>
@@ -390,11 +390,16 @@ const EditProfilePage = () => {
                   </Typography>
                 </Grid>
               </Grid>
-              <Grid container>
-                <Grid item>
+              <Grid container xs={12}>
+                <Grid item xs={8}>
                   <Typography component="h3" variant="h6">
                     Job Description
                   </Typography>
+                </Grid>
+                <Grid item sx={visibilityStyling} xs={2}>
+                  <FormGroup>
+                    <FormControlLabel control={<Switch defaultChecked />} label="Visible" />
+                  </FormGroup>
                 </Grid>
               </Grid>
               <Grid container>
@@ -408,13 +413,6 @@ const EditProfilePage = () => {
                     value={values.jobDesc}
                     onChange={handleChange}
                   />
-                </Grid>
-              </Grid>
-              <Grid container>
-                <Grid item>
-                  {/* <Link color="primary" href={`/edit-profile/${currentUserProfileID}`} sx={{ mt: 3 }}>
-                    Edit Profile
-                  </Link> */}
                 </Grid>
               </Grid>
             </Grid>
