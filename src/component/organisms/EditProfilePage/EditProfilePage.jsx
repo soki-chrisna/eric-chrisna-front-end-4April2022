@@ -211,6 +211,18 @@ const EditProfilePage = () => {
               </Grid>
               <Grid container>
                 <Grid item>
+              <ProfilePicture
+                fieldsWithToggleProps={{
+                  switchName: "shouldShowProfilePicture",
+                  switchLabel: "Visible",
+                  switchCheckedValue: fieldsDisplayState.shouldShowProfilePicture,
+                  onSwitchChangeHandler: onSwitchChangeHandler,
+                }}
+                onProfilePictureChangedHandler={onProfilePictureChangedHandler}
+                handleChange={handleChange}
+                uploadedImageTitle={values.profilePicture}
+                selectedProfilePicture={selectedProfilePicture}
+              />
                   <Typography component="h3" variant="h6">
                     Name
                   </Typography>
