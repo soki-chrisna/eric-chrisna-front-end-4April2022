@@ -31,6 +31,7 @@ import { setUploadedImagePreview } from '../../../utils/imageUpload';
 import FieldsWithToggle from '../../molecules/FieldsWithToggle';
 import ProfilePicture from '../../molecules/EditProfile/ProfilePicture';
 import UserProfileField from '../../molecules/EditProfile/UserProfileField';
+import UserProfileTextAreaField from '../../molecules/EditProfile/UserProfileTextAreaField';
 
 const visibilityStyling = { display: "flex", alignItems: "center", justifyContent: "flex-end"};
 
@@ -338,43 +339,18 @@ const EditProfilePage = () => {
                   </Typography>
                 </Grid>
               </Grid>
-              <UserProfileField
+              <UserProfileTextAreaField
                 fieldsWithToggleProps={{
                   switchName: "shouldShowJobDesc",
                   switchLabel: "Visible",
                   switchCheckedValue: fieldsDisplayState.shouldShowJobDesc,
                   onSwitchChangeHandler: onSwitchChangeHandler,
                 }}
-                fieldName="name"
+                fieldName="jobDesc"
                 handleChange={handleChange}
                 inputValue={values.jobDesc}
                 fieldLabel="Job Description"
               />
-              <Grid container xs={12}>
-                <Grid item xs={8}>
-                  <Typography component="h3" variant="h6">
-                    Job Description
-                  </Typography>
-                </Grid>
-                <Grid item sx={visibilityStyling} xs={2}>
-                  <FormGroup>
-                    <FormControlLabel control={<Switch defaultChecked />} label="Visible" />
-                  </FormGroup>
-                </Grid>
-              </Grid>
-              <Grid container>
-                <Grid item>
-                  <TextareaAutosize
-                    aria-label="empty textarea"
-                    placeholder="Empty"
-                    style={{ width: 200 }}
-                    minRows={3}
-                    name="jobDesc"
-                    value={values.jobDesc}
-                    onChange={handleChange}
-                  />
-                </Grid>
-              </Grid>
             </Grid>
           </Grid>
          </form>
