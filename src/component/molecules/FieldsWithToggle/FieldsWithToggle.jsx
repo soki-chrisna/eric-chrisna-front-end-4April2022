@@ -14,7 +14,7 @@ const FieldsWithToggle = ({
   switchCheckedValue, onSwitchChangeHandler,
 }) => {
   return (
-    <Grid container>
+    switchCheckedValue && <Grid container>
       <Grid item xs={8}>
         {children}
       </Grid>
