@@ -24,7 +24,10 @@ import { DatePicker } from '@mui/x-date-pickers/DatePicker';
 
 import { useParams } from 'react-router-dom';
 import { getUserProfile, getStartDate, geEndDate } from '../ProfilePage/ProfilePageDomain';
-import { prepareFieldsDisplayState, getSecondsToDateValue, updateUserProfile } from '../EditProfilePage/EditProfilePageDomain';
+import {
+  prepareSwitchesToggleState, getSecondsToDateValue, updateUserProfile,
+  validateAge,
+} from '../EditProfilePage/EditProfilePageDomain';
 
 import { setUploadedImagePreview } from '../../../utils/imageUpload';
 
@@ -65,7 +68,7 @@ const EditProfilePage = () => {
       setEnteredStartDate(getSecondsToDateValue(data.startDate?.seconds));
       setEnteredEndDate(getSecondsToDateValue(data.endDate?.seconds));
 
-      prepareFieldsDisplayState(data, setFieldsDisplayState);
+      prepareSwitchesToggleState(data, setFieldsDisplayState);
     };
     setInitialData();
   }, [URLParams.userProfileID]);
@@ -109,10 +112,6 @@ const EditProfilePage = () => {
       endDate: enteredEndDate,
       ...fieldsDisplayState,
     };
-    // updatedUserProfileValues.startDate= enteredStartDate;
-    // updatedUserProfileValues.endDate= enteredEndDate;
-
-    // updateUserProfile(URLParams.userProfileID, updatedUserProfileValues);
     updateUserProfile(URLParams.userProfileID, preparedUpdatedUserProfileValues);
   };
 
@@ -142,6 +141,18 @@ const EditProfilePage = () => {
          ) {
            errors.email = 'Invalid email address';
          }
+
+         if (!values.name) {
+          errors.name = 'Name can not be empty.';
+         }
+
+         errors.age = validateAge(values.age);
+
+         errors.startDate = validateWorkExperience(values.startDate, values.endDate);
+
+        //  if (values.age) {
+        //   errors.age = 'Name can not be empty.';
+        //  }
          return errors;
        }}
        onSubmit={(values, { setSubmitting }) => {
@@ -161,7 +172,6 @@ const EditProfilePage = () => {
          handleBlur,
          handleSubmit,
          isSubmitting,
-         /* and other goodies */
        }) => (
          <form onSubmit={handleSubmit}>
            {/* <input
@@ -208,6 +218,8 @@ const EditProfilePage = () => {
                 handleChange={handleChange}
                 inputValue={values.name}
                 fieldLabel="Name"
+                isError={errors.name}
+                errorMessage={errors.name}
               />
               <UserProfileField
                 fieldsWithToggleProps={{
@@ -216,10 +228,12 @@ const EditProfilePage = () => {
                   switchCheckedValue: fieldsDisplayState.shouldShowAge,
                   onSwitchChangeHandler: onSwitchChangeHandler,
                 }}
-                fieldName="name"
+                fieldName="age"
                 handleChange={handleChange}
                 inputValue={values.age}
                 fieldLabel="Age"
+                isError={errors.age}
+                errorMessage={errors.age}
               />
               <Grid container xs={12}>
                 <Grid item xs={8}>

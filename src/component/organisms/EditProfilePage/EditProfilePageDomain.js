@@ -42,3 +42,13 @@ export const getSecondsToDateValue = (dateValueInSeconds) => {
 // export const prepareStartDateToSecondsValue = (userProfileUpdatedValues) => {
 //   userProfileUpdatedValues.startDate = 
 // };
+export const prepareSwitchesToggleState = (userProfileData, callback) => {
+  let switchesValue = Object.entries(userProfileData).filter((userProfileDataArray) => {
+    return userProfileDataArray[0].match(/shouldShow/);
+  });
+  switchesValue = switchesValue.reduce((obj, cur) => (
+    {...obj, [cur[0]]: cur[1]}
+  ), {});
+
+  callback(switchesValue);
+};
