@@ -1,5 +1,4 @@
-import { collection, getDoc, doc, updateDoc } from "firebase/firestore";
-import UserProfileService from "../../../api/services/UserProfileService";
+import { getDoc, doc, updateDoc } from "firebase/firestore";
 import { db } from "../../../firebase-config";
 import moment from 'moment';
 import { toDateTime } from '../../../utils/date';
@@ -39,9 +38,6 @@ export const getSecondsToDateValue = (dateValueInSeconds) => {
   return dateObject;
 };
 
-// export const prepareStartDateToSecondsValue = (userProfileUpdatedValues) => {
-//   userProfileUpdatedValues.startDate = 
-// };
 export const prepareSwitchesToggleState = (userProfileData, callback) => {
   let switchesValue = Object.entries(userProfileData).filter((userProfileDataArray) => {
     return userProfileDataArray[0].match(/shouldShow/);
@@ -53,16 +49,24 @@ export const prepareSwitchesToggleState = (userProfileData, callback) => {
   callback(switchesValue);
 };
 
-export const validateAge = (ageFieldValue) => {
+export const validateAge = (errors, ageFieldValue) => {
+  let ageErrorMessage = "";
   const age = +ageFieldValue;
 
+  const enteredAgeIsNotANumber = isNaN(age);
+
   if (age > 150) {
-    return "No human can live eternal."
+    ageErrorMessage = "No human can live eternal."
+  } else  if (age < 0) {
+    ageErrorMessage =  "Age can not less than 0."
+  } else if (enteredAgeIsNotANumber) {
+    ageErrorMessage =   "Age can not contain other than number."
   }
 
-  if (age < 0) {
-    return "Age can not less than 0."
+  if (ageErrorMessage) {
+    errors.age = ageErrorMessage;
   }
+};
 
 export const validateWorkExperienceDate = (workStartDate, workEndDate) => {
   const startDate = geFormattedStartDate(workStartDate);
