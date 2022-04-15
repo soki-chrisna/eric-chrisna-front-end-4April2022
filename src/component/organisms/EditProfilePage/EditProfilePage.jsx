@@ -195,7 +195,7 @@ const EditProfilePage = () => {
            <button type="submit" disabled={isSubmitting}>
              Submit
            </button>
-           <Grid container xs={12}>
+           <Grid container>
             <Grid item xs={12}>
               <ProfilePicture
                 fieldsWithToggleProps={{
@@ -238,7 +238,7 @@ const EditProfilePage = () => {
                 // isError={errors.age}
                 errorMessage={errors.age}
               />
-              <Grid container xs={12}>
+              <Grid container>
                 <Grid item xs={8}>
                   <Typography component="h3" variant="h6">
                     Work Experience
@@ -319,7 +319,7 @@ const EditProfilePage = () => {
                 inputValue={values.company}
                 fieldLabel="Company"
               />
-              <Grid container xs={12}>
+              <Grid container>
                 <Grid item xs={8}>
                   <CardMedia
                     component="img"

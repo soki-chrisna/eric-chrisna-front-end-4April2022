@@ -14,7 +14,7 @@ const UserProfileField = ({
     <FieldsWithToggle
       {...fieldsWithToggleProps}
     >
-      <Grid container xs={12}>
+      <Grid container>
         <Grid item xs={6}>
           <Typography component="h3" variant="h6">
             {fieldLabel}
