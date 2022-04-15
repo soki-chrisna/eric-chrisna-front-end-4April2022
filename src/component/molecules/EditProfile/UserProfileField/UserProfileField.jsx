@@ -8,8 +8,10 @@ import Grid from '@mui/material/Grid';
 const UserProfileField = ({
   fieldsWithToggleProps = {},
   handleChange, fieldName,
-  inputValue, fieldLabel, isError, errorMessage
+  inputValue, fieldLabel, errorMessage, isRequired = false,
 }) => {
+  const isError = errorMessage && errorMessage !== "" ? true : false;
+
   return (
     <FieldsWithToggle
       {...fieldsWithToggleProps}
@@ -24,7 +26,7 @@ const UserProfileField = ({
       <Grid container>
         <Grid item>
           <TextField
-            required
+            required={isRequired}
             id={fieldName}
             name={fieldName}
             fullWidth
@@ -33,7 +35,7 @@ const UserProfileField = ({
             value={inputValue}
             onChange={handleChange}
             error={isError}
-            helperText={isError && errorMessage}
+            helperText={errorMessage}
           />
         </Grid>
       </Grid>
