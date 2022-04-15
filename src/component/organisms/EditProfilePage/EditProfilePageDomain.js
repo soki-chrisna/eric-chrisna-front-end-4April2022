@@ -64,10 +64,14 @@ export const validateAge = (ageFieldValue) => {
     return "Age can not less than 0."
   }
 
-  const enteredAgeIsNotANumber = isNaN(age);
-  if (enteredAgeIsNotANumber) {
-    return "Age can not contain other than number."
+export const validateWorkExperienceDate = (workStartDate, workEndDate) => {
+  const startDate = geFormattedStartDate(workStartDate);
+  const endDate = geFormattedStartDate(workEndDate);
+
+  if (startDate > endDate) {
+    return "Start Date can not be more than End date"
   }
 
   return "";
 };
+ 

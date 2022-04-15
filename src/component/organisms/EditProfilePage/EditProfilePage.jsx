@@ -16,7 +16,7 @@ import Switch from '@mui/material/Switch';
 import FormGroup from '@mui/material/FormGroup';
 import FormControlLabel from '@mui/material/FormControlLabel';
 import TextField from '@mui/material/TextField';
-import Link from '@mui/material/Link';
+import FormHelperText from '@mui/material/FormHelperText';
 
 import { AdapterDateFns } from '@mui/x-date-pickers/AdapterDateFns';
 import { LocalizationProvider } from '@mui/x-date-pickers/LocalizationProvider';
@@ -26,7 +26,7 @@ import { useParams } from 'react-router-dom';
 import { getUserProfile, getStartDate, geEndDate } from '../ProfilePage/ProfilePageDomain';
 import {
   prepareSwitchesToggleState, getSecondsToDateValue, updateUserProfile,
-  validateAge,
+  validateAge, validateWorkExperienceDate,
 } from '../EditProfilePage/EditProfilePageDomain';
 
 import { setUploadedImagePreview } from '../../../utils/imageUpload';
@@ -43,6 +43,7 @@ const EditProfilePage = () => {
   const [userProfileData, setUserProfileData] = useState({});
   const [enteredStartDate, setEnteredStartDate] = useState(null);
   const [enteredEndDate, setEnteredEndDate] = useState(null);
+  const [startDateErrorMessage, setStartDateErrorMessage] = useState("");
 
   const [selectedCompanyLogo, setSelectedCompanyLogo] = useState(null);
   const [selectedCompanyLogoURL, setSelectedCompanyLogoURL] = useState("");
@@ -74,6 +75,12 @@ const EditProfilePage = () => {
   }, [URLParams.userProfileID]);
 
   const onStartDateChangeHandler = (enteredStartDateValue) => {
+    const invalidStartDateMessage = validateWorkExperienceDate(enteredStartDateValue, enteredEndDate);
+    setStartDateErrorMessage("");
+    if (invalidStartDateMessage) {
+      setStartDateErrorMessage(invalidStartDateMessage);
+    };
+
     setEnteredStartDate(enteredStartDateValue);
   };
   const onEndDateChangeHandler = (enteredEndDateValue) => {
@@ -146,13 +153,8 @@ const EditProfilePage = () => {
           errors.name = 'Name can not be empty.';
          }
 
-         errors.age = validateAge(values.age);
+        validateAge(errors, values.age);
 
-         errors.startDate = validateWorkExperience(values.startDate, values.endDate);
-
-        //  if (values.age) {
-        //   errors.age = 'Name can not be empty.';
-        //  }
          return errors;
        }}
        onSubmit={(values, { setSubmitting }) => {
@@ -217,8 +219,9 @@ const EditProfilePage = () => {
                 fieldName="name"
                 handleChange={handleChange}
                 inputValue={values.name}
-                fieldLabel="Name"
-                isError={errors.name}
+                fieldLabel="Name*"
+                // isError={errors.name}
+                isRequired
                 errorMessage={errors.name}
               />
               <UserProfileField
@@ -232,7 +235,7 @@ const EditProfilePage = () => {
                 handleChange={handleChange}
                 inputValue={values.age}
                 fieldLabel="Age"
-                isError={errors.age}
+                // isError={errors.age}
                 errorMessage={errors.age}
               />
               <Grid container xs={12}>
@@ -266,6 +269,7 @@ const EditProfilePage = () => {
                           name="startDate"
                         />
                       </LocalizationProvider>
+                      { startDateErrorMessage && <FormHelperText error>{startDateErrorMessage}</FormHelperText> }
                     </Grid>
                   </Grid>
                 </Grid>
