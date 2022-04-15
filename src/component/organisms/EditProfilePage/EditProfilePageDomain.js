@@ -52,3 +52,22 @@ export const prepareSwitchesToggleState = (userProfileData, callback) => {
 
   callback(switchesValue);
 };
+
+export const validateAge = (ageFieldValue) => {
+  const age = +ageFieldValue;
+
+  if (age > 150) {
+    return "No human can live eternal."
+  }
+
+  if (age < 0) {
+    return "Age can not less than 0."
+  }
+
+  const enteredAgeIsNotANumber = isNaN(age);
+  if (enteredAgeIsNotANumber) {
+    return "Age can not contain other than number."
+  }
+
+  return "";
+};
