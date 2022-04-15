@@ -8,7 +8,7 @@ import Grid from '@mui/material/Grid';
 const UserProfileField = ({
   fieldsWithToggleProps = {},
   handleChange, fieldName,
-  inputValue, fieldLabel
+  inputValue, fieldLabel, isError, errorMessage
 }) => {
   return (
     <FieldsWithToggle
@@ -32,6 +32,8 @@ const UserProfileField = ({
             variant="standard"
             value={inputValue}
             onChange={handleChange}
+            error={isError}
+            helperText={isError && errorMessage}
           />
         </Grid>
       </Grid>
