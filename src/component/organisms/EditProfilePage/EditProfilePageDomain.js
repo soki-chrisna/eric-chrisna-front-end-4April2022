@@ -6,6 +6,7 @@ import moment from 'moment';
 import { toDateTime } from '../../../utils/date';
 import { ConfirmationNumber } from "@material-ui/icons";
 import { history } from "../../../utils/history";
+import { redirectTo } from "../../../utils/url";
 
 export const currentUserProfileID = "pg9wefMNwiB1S9u8IGfT";
 
@@ -87,7 +88,7 @@ export const onDiscardClickedHandler = (fieldIsTouched) => (event) => {
   if (fieldIsTouched) {
     const okIsClicked = window.confirm("You are about to leave the page with some fields are modified. Proceed to discard and go back ?");
   };
-  history.push("/");
-  window.location.reload();
+
+  redirectTo("/");
 };
  
