@@ -22,11 +22,11 @@ import { AdapterDateFns } from '@mui/x-date-pickers/AdapterDateFns';
 import { LocalizationProvider } from '@mui/x-date-pickers/LocalizationProvider';
 import { DatePicker } from '@mui/x-date-pickers/DatePicker';
 
-import { useParams } from 'react-router-dom';
+import { useParams, useNavigate } from 'react-router-dom';
 import { getUserProfile, getStartDate, geEndDate } from '../ProfilePage/ProfilePageDomain';
 import {
   prepareSwitchesToggleState, getSecondsToDateValue, updateUserProfile,
-  validateAge, validateWorkExperienceDate,
+  validateAge, validateWorkExperienceDate, onDiscardClickedHandler,
 } from '../EditProfilePage/EditProfilePageDomain';
 
 import { setUploadedImagePreview } from '../../../utils/imageUpload';
@@ -174,6 +174,7 @@ const EditProfilePage = () => {
          handleBlur,
          handleSubmit,
          isSubmitting,
+         dirty,
        }) => (
          <form onSubmit={handleSubmit}>
            {/* <input
@@ -369,6 +370,24 @@ const EditProfilePage = () => {
                 inputValue={values.jobDesc}
                 fieldLabel="Job Description"
               />
+              <Grid container item>
+                <Button
+                  variant="contained"
+                  component="label"
+                  onClick={onDiscardClickedHandler(dirty)}
+                >
+                  Discard
+                </Button>
+                <Button
+                  variant="contained"
+                  component="label"
+                  type="submit"
+                  onClick={handleSubmit}
+                  disabled={isSubmitting}
+                >
+                  Save
+                </Button>
+              </Grid>
             </Grid>
           </Grid>
          </form>

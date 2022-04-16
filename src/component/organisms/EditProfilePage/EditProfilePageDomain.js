@@ -1,7 +1,11 @@
+import React from "react";
+import { useNavigate  } from "react-router-dom";
 import { getDoc, doc, updateDoc } from "firebase/firestore";
 import { db } from "../../../firebase-config";
 import moment from 'moment';
 import { toDateTime } from '../../../utils/date';
+import { ConfirmationNumber } from "@material-ui/icons";
+import { history } from "../../../utils/history";
 
 export const currentUserProfileID = "pg9wefMNwiB1S9u8IGfT";
 
@@ -77,5 +81,13 @@ export const validateWorkExperienceDate = (workStartDate, workEndDate) => {
   }
 
   return "";
+};
+
+export const onDiscardClickedHandler = (fieldIsTouched) => (event) => {
+  if (fieldIsTouched) {
+    const okIsClicked = window.confirm("You are about to leave the page with some fields are modified. Proceed to discard and go back ?");
+  };
+  history.push("/");
+  window.location.reload();
 };
  
