@@ -56,7 +56,9 @@ const EditProfilePage = () => {
 
   const [selectedCompanyLogo, setSelectedCompanyLogo] = useState(null);
   const [selectedCompanyLogoURL, setSelectedCompanyLogoURL] = useState("");
+
   const [selectedProfilePicture, setSelectedProfilePicture] = useState(null);
+  const [profilePictureIsRemoved, setProfilePictureIsRemoved] = useState(true);
 
   const [fieldsDisplayState, setFieldsDisplayState] = useState({
     shouldShowProfilePicture: false,
@@ -128,11 +130,18 @@ const EditProfilePage = () => {
 
     setSelectedProfilePicture(selectedProfilePictureFile.name);
 
+    setProfilePictureIsRemoved(false);
+
     setUploadedImagePreview({
       callback: setSelectedProfilePicture,
       imageFile: selectedProfilePictureFile,
     });
   };
+  const onRemoveProfilePictureClickHandler = () => {
+    setProfilePictureIsRemoved(true);
+    setSelectedProfilePicture("");
+  };
+
   const onCompanyLogoChangeHandler = ({ target }) => {
     const companyLogoFile = target.files[0]
     const formData = new FormData();
@@ -240,6 +249,8 @@ const EditProfilePage = () => {
                   onSwitchChangeHandler: onSwitchChangeHandler,
                 }}
                 onProfilePictureChangedHandler={onProfilePictureChangedHandler}
+                onRemoveProfilePictureClickHandler={onRemoveProfilePictureClickHandler}
+                pictureIsRemoved={profilePictureIsRemoved}
                 handleChange={handleChange}
                 uploadedImageTitle={values.profilePicture}
                 selectedProfilePicture={selectedProfilePicture}
