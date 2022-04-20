@@ -39,7 +39,7 @@ const ProfilePage = () => {
           isVisible={userProfileData.shouldShowAge}
         />
 
-        {(userProfileData.shouldShowStartDate || userProfileData.shouldShowEndDate) && <Grid container>
+        {(userProfileData.shouldShowWorkExperience) && <Grid container>
           <Grid item>
             <Typography component="h3" variant="h6">
               Work Experience
@@ -54,7 +54,6 @@ const ProfilePage = () => {
                 <UserProfileData 
                   label="Start Date"
                   value={getStartDate(userProfileData.startDate?.seconds)}
-                  isVisible={userProfileData.shouldShowStartDate}
                 />
               </Grid>
             </Grid>
@@ -65,7 +64,6 @@ const ProfilePage = () => {
               <UserProfileData 
                 label="End Date"
                 value={geEndDate(userProfileData.startDate?.seconds)}
-                isVisible={userProfileData.shouldShowEndDate}
               />
             </Grid>
             </Grid>
