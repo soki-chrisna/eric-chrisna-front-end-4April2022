@@ -27,6 +27,7 @@ import { getUserProfile, getStartDate, geEndDate } from '../ProfilePage/ProfileP
 import {
   prepareSwitchesToggleState, getSecondsToDateValue, updateUserProfile,
   validateAge, validateWorkExperienceDate, onDiscardClickedHandler,
+  handleConnection,
 } from '../EditProfilePage/EditProfilePageDomain';
 
 import { setUploadedImagePreview } from '../../../utils/imageUpload';
@@ -35,11 +36,16 @@ import FieldsWithToggle from '../../molecules/FieldsWithToggle';
 import ProfilePicture from '../../molecules/EditProfile/ProfilePicture';
 import UserProfileField from '../../molecules/EditProfile/UserProfileField';
 import UserProfileTextAreaField from '../../molecules/EditProfile/UserProfileTextAreaField';
+import useInternetConnection from '../../../hooks/useInternetConnection';
+
+import { INTERNET_CONNECTION_ONLINE, INTERNET_CONNECTION_OFFLINE } from "../../../constants/internetConnection";
 
 const visibilityStyling = { display: "flex", alignItems: "center", justifyContent: "flex-end"};
 
 const EditProfilePage = () => {
   const URLParams = useParams();
+  const {connected, setConnected} = useInternetConnection();
+
   const [userProfileData, setUserProfileData] = useState({});
   const [enteredStartDate, setEnteredStartDate] = useState(null);
   const [enteredEndDate, setEnteredEndDate] = useState(null);
@@ -57,7 +63,7 @@ const EditProfilePage = () => {
     shouldShowJobDescription: false,
     shouldShowJobTitle: false,
     shouldShowName: false,
-    shouldShowStartDate: false,
+    shouldShowWorkExperience: false,
   });
   const [formattedEndDateToSeconds, setFormattedEndDateToSeconds] = useState(0);
 
@@ -73,6 +79,21 @@ const EditProfilePage = () => {
     };
     setInitialData();
   }, [URLParams.userProfileID]);
+
+  useEffect(() => {
+    window.addEventListener(INTERNET_CONNECTION_ONLINE, () => {
+      handleConnection(setConnected);
+    });
+    window.addEventListener(INTERNET_CONNECTION_OFFLINE, () => {
+      handleConnection(setConnected);
+    });
+    handleConnection(setConnected);
+
+    return () => {
+      window.removeEventListener(INTERNET_CONNECTION_ONLINE, handleConnection(setConnected));
+      window.removeEventListener(INTERNET_CONNECTION_OFFLINE, handleConnection(setConnected));
+    };
+  }, []);
 
   const onStartDateChangeHandler = (enteredStartDateValue) => {
     const invalidStartDateMessage = validateWorkExperienceDate(enteredStartDateValue, enteredEndDate);
@@ -119,7 +140,7 @@ const EditProfilePage = () => {
       endDate: enteredEndDate,
       ...fieldsDisplayState,
     };
-    updateUserProfile(URLParams.userProfileID, preparedUpdatedUserProfileValues);
+    updateUserProfile(preparedUpdatedUserProfileValues, URLParams.userProfileID, connected);
   };
 
   const onSwitchChangeHandler = ({target}) => {

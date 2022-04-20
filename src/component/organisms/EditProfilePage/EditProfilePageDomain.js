@@ -1,12 +1,14 @@
 import React from "react";
 import { useNavigate  } from "react-router-dom";
-import { getDoc, doc, updateDoc } from "firebase/firestore";
+import { getDoc, doc, updateDoc, enableIndexedDbPersistence } from "firebase/firestore";
 import { db } from "../../../firebase-config";
 import moment from 'moment';
 import { toDateTime } from '../../../utils/date';
 import { ConfirmationNumber } from "@material-ui/icons";
 import { history } from "../../../utils/history";
 import { redirectTo } from "../../../utils/url";
+import { setDeferredSavedData } from "../../../utils/offlineModeHandler";
+import { INTERNET_CONNECTION_ONLINE, INTERNET_CONNECTION_OFFLINE } from "../../../constants/internetConnection";
 
 export const currentUserProfileID = "pg9wefMNwiB1S9u8IGfT";
 
@@ -21,13 +23,18 @@ export const getUserProfile = async (userprofileID = "") => {
     }
 };
 
-export const updateUserProfile = async (userprofileID = "", updatedUserProfileValues) => {
-    try {
-      const userDoc = doc(db, "users", userprofileID);
-      await updateDoc(userDoc, updatedUserProfileValues);
-    } catch (error) {
-      throw Error(error);
-    }
+export const updateUserProfile = async (updatedUserProfileValues, userprofileID = "", online = true) => {
+  if (!online) {
+    setDeferredSavedData(updatedUserProfileValues);
+    return;
+  }
+
+  try {
+    const userDoc = doc(db, "users", userprofileID);
+    await updateDoc(userDoc, updatedUserProfileValues);
+  } catch (error) {
+    throw Error(error);
+  }
 };
 
 export const geFormattedStartDate = (enteredStartDate) => {
@@ -86,9 +93,17 @@ export const validateWorkExperienceDate = (workStartDate, workEndDate) => {
 
 export const onDiscardClickedHandler = (fieldIsTouched) => (event) => {
   if (fieldIsTouched) {
-    const okIsClicked = window.confirm("You are about to leave the page with some fields are modified. Proceed to discard and go back ?");
+    window.confirm("You are about to leave the page with some fields are modified. Proceed to discard and go back ?");
   };
 
   redirectTo("/");
+};
+
+export const handleConnection = (setConnected) => {
+  const internetConnection = navigator.onLine ? INTERNET_CONNECTION_ONLINE : INTERNET_CONNECTION_OFFLINE;
+  if (internetConnection === INTERNET_CONNECTION_OFFLINE) {
+    return setConnected(false);
+  }
+  return setConnected(true);
 };
  
