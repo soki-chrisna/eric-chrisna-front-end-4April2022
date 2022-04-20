@@ -14,7 +14,7 @@ const FieldsWithToggle = ({
   switchCheckedValue, onSwitchChangeHandler,
 }) => {
   return (
-    switchCheckedValue && <Grid container>
+    <Grid container>
       <Grid item xs={8}>
         {children}
       </Grid>
@@ -24,7 +24,7 @@ const FieldsWithToggle = ({
               <Switch
                 name={switchName}
                 // checked={values.shouldShowProfilePicture}
-                checked={switchCheckedValue}
+                checked={switchCheckedValue || false}
                 onChange={onSwitchChangeHandler}
               />
             }
