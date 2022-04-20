@@ -17,13 +17,13 @@ const UserProfileField = ({
       {...fieldsWithToggleProps}
     >
       <Grid container>
-        <Grid item xs={6}>
-          <Typography component="h3" variant="h6">
+        <Grid item display="flex" xs={6}>
+          <Typography component="h3" variant="h6" gutterBottom>
             {fieldLabel}
           </Typography>
         </Grid>
       </Grid>
-      <Grid container>
+      <Grid container pb={4}>
         <Grid item>
           <TextField
             required={isRequired}

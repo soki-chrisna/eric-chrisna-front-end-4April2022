@@ -293,7 +293,7 @@ const EditProfilePage = () => {
                 errorMessage={errors.age}
               />
               <Grid container>
-                <Grid item xs={8}>
+                <Grid container justifyContent="center" item display="flex" xs={8}>
                   <Typography component="h3" variant="h6">
                     Work Experience
                   </Typography>
@@ -310,7 +310,7 @@ const EditProfilePage = () => {
                   </FormGroup>
                 </Grid>
               </Grid>
-              <Grid container>
+              <Grid justifyContent="center" spacing={8} xs={10} container pb={4}>
                 <Grid item>
                   <Grid container>
                     <Grid item>
@@ -379,25 +379,21 @@ const EditProfilePage = () => {
                 inputValue={values.company}
                 fieldLabel="Company"
               />
-              <Grid container pb={4}>
-                <Grid item xs={12}>
-                  <PictureUpload
-                    fieldsWithToggleProps={{
-                      switchName: "shouldShowCompanyLogo",
-                      switchLabel: "Visible",
-                      switchCheckedValue: fieldsDisplayState.shouldShowCompanyLogo,
-                      onSwitchChangeHandler: onSwitchChangeHandler,
-                    }}
-                    fieldName="companyLogo"
-                    onPictureChangedHandler={onCompanyLogoChangeHandler}
-                    onRemovePictureClickHandler={onRemoveCompanyLogoClickHandler}
-                    pictureIsRemoved={companyLogoIsRemoved}
-                    handleChange={handleChange}
-                    uploadedImageTitle={values.companyLogo}
-                    selectedPicture={selectedCompanyLogoURL}
-                  />
-                </Grid>
-              </Grid>
+              <PictureUpload
+                fieldsWithToggleProps={{
+                  switchName: "shouldShowCompanyLogo",
+                  switchLabel: "Visible",
+                  switchCheckedValue: fieldsDisplayState.shouldShowCompanyLogo,
+                  onSwitchChangeHandler: onSwitchChangeHandler,
+                }}
+                fieldName="companyLogo"
+                onPictureChangedHandler={onCompanyLogoChangeHandler}
+                onRemovePictureClickHandler={onRemoveCompanyLogoClickHandler}
+                pictureIsRemoved={companyLogoIsRemoved}
+                handleChange={handleChange}
+                uploadedImageTitle={values.companyLogo}
+                selectedPicture={selectedCompanyLogoURL}
+              />
               <UserProfileTextAreaField
                 fieldsWithToggleProps={{
                   switchName: "shouldShowJobDesc",

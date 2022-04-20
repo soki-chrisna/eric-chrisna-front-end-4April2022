@@ -5,7 +5,7 @@ import Typography from '@mui/material/Typography';
 import TextareaAutosize from '@mui/base/TextareaAutosize';
 import Grid from '@mui/material/Grid';
 
-const UserProfileField = ({
+const UserProfileTextAreaField = ({
   fieldsWithToggleProps = {},
   handleChange, fieldName,
   inputValue, fieldLabel
@@ -15,8 +15,8 @@ const UserProfileField = ({
       {...fieldsWithToggleProps}
     >
       <Grid container>
-        <Grid item xs={6}>
-          <Typography component="h3" variant="h6">
+        <Grid item>
+          <Typography component="h3" variant="h6" gutterBottom>
             {fieldLabel}
           </Typography>
         </Grid>
@@ -38,4 +38,4 @@ const UserProfileField = ({
   )
 }
 
-export default UserProfileField;
+export default UserProfileTextAreaField;
