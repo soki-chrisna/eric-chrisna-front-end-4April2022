@@ -11,10 +11,10 @@ import AppRoutes from '../../../routes';
 const visibilityStyling = { display: "flex", alignItems: "center", justifyContent: "flex-end"};
 
 const FieldsWithToggle = ({
-  label, value,
+  label, value, isVisible = true,
 }) => {
   return (
-    <>
+    isVisible && <>
       <Grid container>
         <Grid item>
           <Typography component="h3" variant="h6">
