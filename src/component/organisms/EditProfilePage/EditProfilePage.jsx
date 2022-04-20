@@ -247,7 +247,13 @@ const EditProfilePage = () => {
                 </Grid>
                 <Grid item sx={visibilityStyling} xs={2}>
                   <FormGroup>
-                    <FormControlLabel control={<Switch defaultChecked />} label="Visible" />
+                    <FormControlLabel control={
+                      <Switch
+                        name="shouldShowWorkExperience"
+                        checked={fieldsDisplayState.shouldShowWorkExperience || false}
+                        onChange={onSwitchChangeHandler}
+                      />
+                    } label="Visible" />
                   </FormGroup>
                 </Grid>
               </Grid>
@@ -303,7 +309,7 @@ const EditProfilePage = () => {
                   switchCheckedValue: fieldsDisplayState.shouldShowJobTitle,
                   onSwitchChangeHandler: onSwitchChangeHandler,
                 }}
-                fieldName="name"
+                fieldName="jobTitle"
                 handleChange={handleChange}
                 inputValue={values.jobTitle}
                 fieldLabel="Job Title"
@@ -315,7 +321,7 @@ const EditProfilePage = () => {
                   switchCheckedValue: fieldsDisplayState.shouldShowCompany,
                   onSwitchChangeHandler: onSwitchChangeHandler,
                 }}
-                fieldName="name"
+                fieldName="company"
                 handleChange={handleChange}
                 inputValue={values.company}
                 fieldLabel="Company"
