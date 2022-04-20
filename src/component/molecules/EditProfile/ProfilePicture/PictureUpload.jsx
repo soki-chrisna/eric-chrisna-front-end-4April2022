@@ -8,9 +8,9 @@ import { Grid } from "@mui/material";
 
 const PictureUpload = ({
   fieldsWithToggleProps = {},
-  handleChange,
-  onProfilePictureChangedHandler, onRemoveProfilePictureClickHandler,
-  uploadedImageTitle, selectedProfilePicture, pictureIsRemoved,
+  handleChange, fieldName,
+  onPictureChangedHandler, onRemovePictureClickHandler,
+  uploadedImageTitle, selectedPicture, pictureIsRemoved,
 }) => {
   return (
     <FieldsWithToggle
@@ -24,7 +24,7 @@ const PictureUpload = ({
       <CardMedia
         component="img"
         sx={{ width: 250, display: { xs: 'none', sm: 'block' } }}
-        image={selectedProfilePicture}
+        image={selectedPicture}
         alt="Profile Picture"
       />
       <Typography component="h3" variant="h6" gutterBottom>
@@ -39,11 +39,11 @@ const PictureUpload = ({
           <input
             type="file"
             hidden
-            name="profilePicture"
+            name={fieldName}
             accept='image/png, image/jpg'
             onChange={(event) => {
               handleChange(event);
-              onProfilePictureChangedHandler(event);
+              onPictureChangedHandler(event);
             }}
             id="profile-picture"
           />
@@ -52,7 +52,7 @@ const PictureUpload = ({
           variant="contained"
           component="label"
           disabled={pictureIsRemoved}
-          onClick={onRemoveProfilePictureClickHandler}
+          onClick={onRemovePictureClickHandler}
         >
           Remove
         </Button>

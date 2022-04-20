@@ -37,7 +37,7 @@ import { DEFERRED_SAVE_DATA_ITEM_KEY } from '../../../constants/offline';
 import { INTERNET_CONNECTION_ONLINE, INTERNET_CONNECTION_OFFLINE } from "../../../constants/internetConnection";
 
 import FieldsWithToggle from '../../molecules/FieldsWithToggle';
-import ProfilePicture from '../../molecules/EditProfile/ProfilePicture';
+import PictureUpload from '../../molecules/EditProfile/ProfilePicture';
 import UserProfileField from '../../molecules/EditProfile/UserProfileField';
 import UserProfileTextAreaField from '../../molecules/EditProfile/UserProfileTextAreaField';
 
