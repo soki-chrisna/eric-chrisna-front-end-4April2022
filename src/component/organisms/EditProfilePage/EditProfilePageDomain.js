@@ -1,18 +1,14 @@
-import React from "react";
-import { useNavigate  } from "react-router-dom";
-import { getDoc, doc, updateDoc, enableIndexedDbPersistence } from "firebase/firestore";
+import { getDoc, doc, updateDoc } from "firebase/firestore";
 import { db } from "../../../firebase-config";
 import moment from 'moment';
 import { toDateTime } from '../../../utils/date';
-import { ConfirmationNumber } from "@material-ui/icons";
-import { history } from "../../../utils/history";
 import { redirectTo } from "../../../utils/url";
 import { setDeferredSavedData } from "../../../utils/offlineModeHandler";
 import { INTERNET_CONNECTION_ONLINE, INTERNET_CONNECTION_OFFLINE } from "../../../constants/internetConnection";
 
 export const currentUserProfileID = "pg9wefMNwiB1S9u8IGfT";
 
-export const getUserProfile = async (userprofileID = "") => {
+export const getUserProfile = async () => {
     try {
       const userProfileRef = doc(db, "users", currentUserProfileID);
       const userProfileData = await getDoc(userProfileRef);

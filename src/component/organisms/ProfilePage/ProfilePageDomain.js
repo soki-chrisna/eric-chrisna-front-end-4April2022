@@ -1,4 +1,4 @@
-import { collection, getDoc, doc } from "firebase/firestore";
+import { getDoc, doc } from "firebase/firestore";
 import { db } from "../../../firebase-config";
 import moment from 'moment';
 import { toDateTime } from '../../../utils/date';

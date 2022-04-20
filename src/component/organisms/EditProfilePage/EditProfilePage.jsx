@@ -1,17 +1,8 @@
 import React, { useEffect, useState } from 'react';
 import Grid from '@mui/material/Grid';
-import CardMedia from '@mui/material/CardMedia';
-import Paper from '@mui/material/Paper';
-import Table from '@mui/material/Table';
-import TableBody from '@mui/material/TableBody';
-import TableCell from '@mui/material/TableCell';
-import TableContainer from '@mui/material/TableContainer';
-import TableHead from '@mui/material/TableHead';
-import TableRow from '@mui/material/TableRow';
 import Button from '@mui/material/Button';
 import { Formik } from 'formik';
 import Typography from '@mui/material/Typography';
-import TextareaAutosize from '@mui/base/TextareaAutosize';
 import Switch from '@mui/material/Switch';
 import FormGroup from '@mui/material/FormGroup';
 import FormControlLabel from '@mui/material/FormControlLabel';
@@ -22,8 +13,8 @@ import { AdapterDateFns } from '@mui/x-date-pickers/AdapterDateFns';
 import { LocalizationProvider } from '@mui/x-date-pickers/LocalizationProvider';
 import { DatePicker } from '@mui/x-date-pickers/DatePicker';
 
-import { useParams, useNavigate } from 'react-router-dom';
-import { getUserProfile, getStartDate, geEndDate } from '../ProfilePage/ProfilePageDomain';
+import { useParams } from 'react-router-dom';
+import { getUserProfile } from '../ProfilePage/ProfilePageDomain';
 import {
   prepareSwitchesToggleState, getSecondsToDateValue, updateUserProfile,
   validateAge, validateWorkExperienceDate, onDiscardClickedHandler,
@@ -36,7 +27,6 @@ import { saveDeferredData, clearDeferredSaveData } from '../../../utils/offlineM
 import { DEFERRED_SAVE_DATA_ITEM_KEY } from '../../../constants/offline';
 import { INTERNET_CONNECTION_ONLINE, INTERNET_CONNECTION_OFFLINE } from "../../../constants/internetConnection";
 
-import FieldsWithToggle from '../../molecules/FieldsWithToggle';
 import PictureUpload from '../../molecules/EditProfile/ProfilePicture';
 import UserProfileField from '../../molecules/EditProfile/UserProfileField';
 import UserProfileTextAreaField from '../../molecules/EditProfile/UserProfileTextAreaField';
@@ -54,7 +44,6 @@ const EditProfilePage = () => {
   const [enteredEndDate, setEnteredEndDate] = useState(null);
   const [startDateErrorMessage, setStartDateErrorMessage] = useState("");
 
-  const [selectedCompanyLogo, setSelectedCompanyLogo] = useState(null);
   const [selectedCompanyLogoURL, setSelectedCompanyLogoURL] = useState("");
   const [companyLogoIsRemoved, setCompanyLogoIsRemovedIsRemoved] = useState(true);
 
@@ -71,7 +60,6 @@ const EditProfilePage = () => {
     shouldShowName: false,
     shouldShowWorkExperience: false,
   });
-  const [formattedEndDateToSeconds, setFormattedEndDateToSeconds] = useState(0);
 
   useEffect(() => {
     const setInitialData = async () => {
@@ -94,7 +82,7 @@ const EditProfilePage = () => {
       }
     };
     doSaveOnReconnect();
-  }, [connected]);
+  }, [connected, URLParams.userProfileID]);
 
   useEffect(() => {
     window.addEventListener(INTERNET_CONNECTION_ONLINE, () => {
@@ -109,7 +97,7 @@ const EditProfilePage = () => {
       window.removeEventListener(INTERNET_CONNECTION_ONLINE, handleConnection(setConnected));
       window.removeEventListener(INTERNET_CONNECTION_OFFLINE, handleConnection(setConnected));
     };
-  }, []);
+  }, [setConnected]);
 
   const onStartDateChangeHandler = (enteredStartDateValue) => {
     const invalidStartDateMessage = validateWorkExperienceDate(enteredStartDateValue, enteredEndDate);
@@ -227,21 +215,6 @@ const EditProfilePage = () => {
          dirty,
        }) => (
          <form onSubmit={handleSubmit}>
-           {/* <input
-             type="email"
-             name="email"
-             onChange={handleChange}
-             onBlur={handleBlur}
-             value={values.email}
-           />
-           {errors.email && touched.email && errors.email}
-           <input
-             type="password"
-             name="password"
-             onChange={handleChange}
-             onBlur={handleBlur}
-             value={values.password}
-           /> */}
            {errors.password && touched.password && errors.password}
            <button type="submit" disabled={isSubmitting}>
              Submit
@@ -274,7 +247,6 @@ const EditProfilePage = () => {
                 handleChange={handleChange}
                 inputValue={values.name}
                 fieldLabel="Name*"
-                // isError={errors.name}
                 isRequired
                 errorMessage={errors.name}
               />
@@ -289,11 +261,10 @@ const EditProfilePage = () => {
                 handleChange={handleChange}
                 inputValue={values.age}
                 fieldLabel="Age"
-                // isError={errors.age}
                 errorMessage={errors.age}
               />
               <Grid container>
-                <Grid container justifyContent="center" item display="flex" xs={8}>
+                <Grid justifyContent="center" item display="flex" xs={8}>
                   <Typography component="h3" variant="h6">
                     Work Experience
                   </Typography>
@@ -310,7 +281,7 @@ const EditProfilePage = () => {
                   </FormGroup>
                 </Grid>
               </Grid>
-              <Grid justifyContent="center" spacing={8} xs={10} container pb={4}>
+              <Grid item justifyContent="center" spacing={8} xs={10} container pb={4}>
                 <Grid item>
                   <Grid container>
                     <Grid item>
