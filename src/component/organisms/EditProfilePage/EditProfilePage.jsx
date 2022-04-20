@@ -31,14 +31,17 @@ import {
 } from '../EditProfilePage/EditProfilePageDomain';
 
 import { setUploadedImagePreview } from '../../../utils/imageUpload';
+import { saveDeferredData, clearDeferredSaveData } from '../../../utils/offlineModeHandler';
+
+import { DEFERRED_SAVE_DATA_ITEM_KEY } from '../../../constants/offline';
+import { INTERNET_CONNECTION_ONLINE, INTERNET_CONNECTION_OFFLINE } from "../../../constants/internetConnection";
 
 import FieldsWithToggle from '../../molecules/FieldsWithToggle';
 import ProfilePicture from '../../molecules/EditProfile/ProfilePicture';
 import UserProfileField from '../../molecules/EditProfile/UserProfileField';
 import UserProfileTextAreaField from '../../molecules/EditProfile/UserProfileTextAreaField';
-import useInternetConnection from '../../../hooks/useInternetConnection';
 
-import { INTERNET_CONNECTION_ONLINE, INTERNET_CONNECTION_OFFLINE } from "../../../constants/internetConnection";
+import useInternetConnection from '../../../hooks/useInternetConnection';
 
 const visibilityStyling = { display: "flex", alignItems: "center", justifyContent: "flex-end"};
 
@@ -79,6 +82,16 @@ const EditProfilePage = () => {
     };
     setInitialData();
   }, [URLParams.userProfileID]);
+
+  useEffect(() => {
+    const doSaveOnReconnect = async () => {
+      if (connected) {
+        await saveDeferredData(URLParams.userProfileID);
+        clearDeferredSaveData(DEFERRED_SAVE_DATA_ITEM_KEY);
+      }
+    };
+    doSaveOnReconnect();
+  }, [connected]);
 
   useEffect(() => {
     window.addEventListener(INTERNET_CONNECTION_ONLINE, () => {
