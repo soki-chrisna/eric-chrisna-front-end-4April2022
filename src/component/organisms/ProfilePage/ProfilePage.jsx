@@ -11,6 +11,7 @@ import TableRow from '@mui/material/TableRow';
 import Typography from '@mui/material/Typography';
 import Link from '@mui/material/Link';
 import { getUserProfile, getStartDate, geEndDate } from './ProfilePageDomain';
+import Picture from '../../atoms/Picture/PictureBase';
 
 import UserProfileData from '../../molecules/UserProfileData'
 
@@ -30,16 +31,11 @@ const ProfilePage = () => {
   return (
     <Grid container >
       <Grid item xs={12}>
-        <Grid container>
-          <Grid item>
-            <CardMedia
-              component="img"
-              sx={{ width: 160, display: { xs: 'none', sm: 'block' } }}
-              image={userProfileData.profilePicture}
-              alt="Profile Image"
-            />
-          </Grid>
-        </Grid>
+        <Picture
+          picture={userProfileData.profilePicture}
+          alt="Profile Picture"
+          isVisible={userProfileData.shouldShowProfilePicture}
+        />
         <UserProfileData 
           label="Name"
           value={userProfileData.name}
@@ -82,24 +78,22 @@ const ProfilePage = () => {
         <UserProfileData 
           label="Job Title"
           value={userProfileData.jobTitle}
+          isVisible={userProfileData.shouldShowJobTitle}
         />
         <UserProfileData 
           label="Company"
           value={userProfileData.company}
+          isVisible={userProfileData.shouldShowCompany}
         />
-        <Grid container>
-          <Grid item mb={2}>
-            <CardMedia
-              component="img"
-              sx={{ width: 160, display: { xs: 'none', sm: 'block' } }}
-              image={userProfileData.companyLogo}
-              alt="Profile Image"
-            />
-          </Grid>
-        </Grid>
+        <Picture
+          picture={userProfileData.companyLogo}
+          alt="Company Logo"
+          isVisible={userProfileData.shouldShowCompanyLogo}
+        />
         <UserProfileData 
           label="Job Description"
           value={userProfileData.jobDesc}
+          isVisible={userProfileData.shouldShowJobDesc}
         />
         <Grid container>
           <Grid item display="flex" xs={12} justifyContent="center">
