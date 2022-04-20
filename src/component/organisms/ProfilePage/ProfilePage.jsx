@@ -12,6 +12,8 @@ import Typography from '@mui/material/Typography';
 import Link from '@mui/material/Link';
 import { getUserProfile, getStartDate, geEndDate } from './ProfilePageDomain';
 
+import UserProfileData from '../../molecules/UserProfileData'
+
 export const currentUserProfileID = "pg9wefMNwiB1S9u8IGfT";
 
 const ProfilePage = () => {
@@ -38,6 +40,10 @@ const ProfilePage = () => {
             />
           </Grid>
         </Grid>
+        <UserProfileData 
+          label="Name"
+          value={userProfileData.name}
+        />
         <Grid container>
           <Grid item>
             <Typography component="h3" variant="h6">
