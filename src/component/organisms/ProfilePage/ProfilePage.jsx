@@ -54,6 +54,7 @@ const ProfilePage = () => {
                 <UserProfileData 
                   label="Start Date"
                   value={getStartDate(userProfileData.startDate?.seconds)}
+                  isVisible={userProfileData.shouldShowWorkExperience}
                 />
               </Grid>
             </Grid>
@@ -64,6 +65,7 @@ const ProfilePage = () => {
               <UserProfileData 
                 label="End Date"
                 value={geEndDate(userProfileData.startDate?.seconds)}
+                isVisible={userProfileData.shouldShowWorkExperience}
               />
             </Grid>
             </Grid>
