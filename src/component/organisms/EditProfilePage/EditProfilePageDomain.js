@@ -84,7 +84,7 @@ export const validateWorkExperienceDate = (workStartDate, workEndDate) => {
   const startDate = geFormattedStartDate(workStartDate);
   const endDate = geFormattedStartDate(workEndDate);
 
-  if (startDate > endDate) {
+  if (endDate && startDate > endDate) {
     return "Start Date can not be more than End date"
   }
 
