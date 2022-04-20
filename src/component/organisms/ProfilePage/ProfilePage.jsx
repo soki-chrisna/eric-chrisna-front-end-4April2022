@@ -29,13 +29,13 @@ const ProfilePage = () => {
 
   return (
     <Grid container >
-      <Grid item>
+      <Grid item xs={12}>
         <Grid container>
           <Grid item>
             <CardMedia
               component="img"
               sx={{ width: 160, display: { xs: 'none', sm: 'block' } }}
-              image={null}
+              image={userProfileData.profilePicture}
               alt="Profile Image"
             />
           </Grid>
@@ -43,35 +43,13 @@ const ProfilePage = () => {
         <UserProfileData 
           label="Name"
           value={userProfileData.name}
+          isVisible={userProfileData.shouldShowName}
         />
-        <Grid container>
-          <Grid item>
-            <Typography component="h3" variant="h6">
-              Name
-            </Typography>
-          </Grid>
-        </Grid>
-        <Grid container>
-          <Grid item>
-            <Typography  paragraph>
-              {userProfileData.name}
-            </Typography>
-          </Grid>
-        </Grid>
-        <Grid container>
-          <Grid item>
-            <Typography component="h3" variant="h6">
-              Age
-            </Typography>
-          </Grid>
-        </Grid>
-        <Grid container>
-          <Grid item>
-            <Typography  paragraph>
-              {userProfileData.age}
-            </Typography>
-          </Grid>
-        </Grid>
+        <UserProfileData 
+          label="Age"
+          value={userProfileData.age}
+        />
+
         <Grid container>
           <Grid item>
             <Typography component="h3" variant="h6">
@@ -82,91 +60,49 @@ const ProfilePage = () => {
         <Grid container>
           <Grid item>
             <Grid container>
-              <Grid item>
-                <Typography component="h3" variant="h6">
-                  Start Date
-                </Typography>
-              </Grid>
-            </Grid>
-            <Grid container>
-              <Grid item>
-                <Typography component="h3" variant="h6">
-                  {getStartDate(userProfileData.startDate?.seconds)}
-                </Typography>
+              <Grid item  mr={5}>
+                <UserProfileData 
+                  label="Start Date"
+                  value={getStartDate(userProfileData.startDate?.seconds)}
+                />
               </Grid>
             </Grid>
           </Grid>
           <Grid item>
           <Grid container>
             <Grid item>
-              <Typography component="h3" variant="h6">
-                End Date
-              </Typography>
+              <UserProfileData 
+                label="End Date"
+                value={geEndDate(userProfileData.startDate?.seconds)}
+              />
             </Grid>
             </Grid>
-            <Grid container>
-              <Grid item>
-                <Typography component="h3" variant="h6">
-                  {geEndDate(userProfileData.startDate?.seconds)}
-                </Typography>
-              </Grid>
-            </Grid>
           </Grid>
         </Grid>
+        <UserProfileData 
+          label="Job Title"
+          value={userProfileData.jobTitle}
+        />
+        <UserProfileData 
+          label="Company"
+          value={userProfileData.company}
+        />
         <Grid container>
-          <Grid item>
-            <Typography component="h3" variant="h6">
-              Job Title
-            </Typography>
-          </Grid>
-        </Grid>
-        <Grid container>
-          <Grid item>
-            <Typography component="h3" variant="h6">
-              {userProfileData.jobTitle}
-            </Typography>
-          </Grid>
-        </Grid>
-        <Grid container>
-          <Grid item>
-            <Typography component="h3" variant="h6">
-              Company
-            </Typography>
-          </Grid>
-        </Grid>
-        <Grid container>
-          <Grid item>
-            <Typography component="h3" variant="h6">
-              {userProfileData.company}
-            </Typography>
-          </Grid>
-        </Grid>
-        <Grid container>
-          <Grid item>
+          <Grid item mb={2}>
             <CardMedia
               component="img"
               sx={{ width: 160, display: { xs: 'none', sm: 'block' } }}
-              image={null}
+              image={userProfileData.companyLogo}
               alt="Profile Image"
             />
           </Grid>
         </Grid>
+        <UserProfileData 
+          label="Job Description"
+          value={userProfileData.jobDesc}
+        />
         <Grid container>
-          <Grid item>
-            <Typography component="h3" variant="h6">
-              Job Description
-            </Typography>
-          </Grid>
-        </Grid>
-        <Grid container>
-          <Grid item>
-            <Typography component="h3" variant="h6">
-              {userProfileData.jobDesc}
-            </Typography>
-          </Grid>
-        </Grid>
-        <Grid container>
-          <Grid item>
+          <Grid item display="flex" xs={12} justifyContent="center">
             <Link color="primary" href={`/edit-profile/${currentUserProfileID}`} sx={{ mt: 3 }}>
               Edit Profile
             </Link>

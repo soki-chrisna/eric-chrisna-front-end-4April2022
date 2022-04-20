@@ -49,8 +49,8 @@ const PictureUpload = ({
           />
         </Button>
         <Button
-          variant="contained"
-          component="label"
+          variantK="contained"
+          componentK="label"
           disabled={pictureIsRemoved}
           onClick={onRemovePictureClickHandler}
         >

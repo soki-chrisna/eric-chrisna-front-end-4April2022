@@ -24,7 +24,7 @@ const FieldsWithToggle = ({
       </Grid>
       <Grid container>
         <Grid item>
-          <Typography  paragraph>
+          <Typography paragraph>
             {value}
           </Typography>
         </Grid>

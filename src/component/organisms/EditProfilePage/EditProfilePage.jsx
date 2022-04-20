@@ -406,10 +406,8 @@ const EditProfilePage = () => {
                 inputValue={values.jobDesc}
                 fieldLabel="Job Description"
               />
-              <Grid container item>
+              <Grid mt={5} container item xs={12} justifyContent="center">
                 <Button
-                  variant="contained"
-                  component="label"
                   onClick={onDiscardClickedHandler(dirty)}
                 >
                   Discard
