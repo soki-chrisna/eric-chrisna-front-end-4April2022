@@ -1,12 +1,12 @@
 import React from "react";
 
-import FieldsWithToggle from '../../../molecules/FieldsWithToggle';
+import FieldsWithToggle from '../../FieldsWithToggle';
 import CardMedia from '@mui/material/CardMedia';
 import Typography from '@mui/material/Typography';
 import Button from '@mui/material/Button';
 import { Grid } from "@mui/material";
 
-const ProfilePicture = ({
+const PictureUpload = ({
   fieldsWithToggleProps = {},
   handleChange,
   onProfilePictureChangedHandler, onRemoveProfilePictureClickHandler,
@@ -61,4 +61,4 @@ const ProfilePicture = ({
   )
 }
 
-export default ProfilePicture;
+export default PictureUpload;

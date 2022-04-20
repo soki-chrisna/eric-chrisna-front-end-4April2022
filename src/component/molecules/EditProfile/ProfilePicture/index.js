@@ -1,3 +1,3 @@
-import ProfilePicture from './ProfilePicture'
+import PictureUpload from './PictureUpload'
 
-export default ProfilePicture;
+export default PictureUpload;
