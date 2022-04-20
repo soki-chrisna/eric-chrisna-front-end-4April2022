@@ -56,6 +56,7 @@ const EditProfilePage = () => {
 
   const [selectedCompanyLogo, setSelectedCompanyLogo] = useState(null);
   const [selectedCompanyLogoURL, setSelectedCompanyLogoURL] = useState("");
+  const [companyLogoIsRemoved, setCompanyLogoIsRemovedIsRemoved] = useState(true);
 
   const [selectedProfilePicture, setSelectedProfilePicture] = useState(null);
   const [profilePictureIsRemoved, setProfilePictureIsRemoved] = useState(true);
@@ -147,12 +148,18 @@ const EditProfilePage = () => {
     const formData = new FormData();
     formData.append("image", companyLogoFile, companyLogoFile.name);
     
-    setSelectedCompanyLogo(companyLogoFile.name);
+    setSelectedCompanyLogoURL(companyLogoFile.name);
+
+    setCompanyLogoIsRemovedIsRemoved(false);
 
     setUploadedImagePreview({
       callback: setSelectedCompanyLogoURL,
       imageFile: companyLogoFile,
     });
+  };
+  const onRemoveCompanyLogoClickHandler = () => {
+    setCompanyLogoIsRemovedIsRemoved(true);
+    setSelectedCompanyLogoURL("");
   };
 
   const onFormSubmitted = (updatedUserProfileValues) => {
@@ -241,19 +248,20 @@ const EditProfilePage = () => {
            </button>
            <Grid container>
             <Grid item xs={12}>
-              <ProfilePicture
+              <PictureUpload
                 fieldsWithToggleProps={{
                   switchName: "shouldShowProfilePicture",
                   switchLabel: "Visible",
                   switchCheckedValue: fieldsDisplayState.shouldShowProfilePicture,
                   onSwitchChangeHandler: onSwitchChangeHandler,
                 }}
-                onProfilePictureChangedHandler={onProfilePictureChangedHandler}
-                onRemoveProfilePictureClickHandler={onRemoveProfilePictureClickHandler}
+                fieldName="profilePicture"
+                onPictureChangedHandler={onProfilePictureChangedHandler}
+                onRemovePictureClickHandler={onRemoveProfilePictureClickHandler}
                 pictureIsRemoved={profilePictureIsRemoved}
                 handleChange={handleChange}
                 uploadedImageTitle={values.profilePicture}
-                selectedProfilePicture={selectedProfilePicture}
+                selectedPicture={selectedProfilePicture}
               />
               <UserProfileField
                 fieldsWithToggleProps={{
@@ -371,42 +379,23 @@ const EditProfilePage = () => {
                 inputValue={values.company}
                 fieldLabel="Company"
               />
-              <Grid container>
-                <Grid item xs={8}>
-                  <CardMedia
-                    component="img"
-                    sx={{ width: 250, display: { xs: 'none', sm: 'block' } }}
-                    image={selectedCompanyLogoURL}
-                    alt="Company Logo"
+              <Grid container pb={4}>
+                <Grid item xs={12}>
+                  <PictureUpload
+                    fieldsWithToggleProps={{
+                      switchName: "shouldShowCompanyLogo",
+                      switchLabel: "Visible",
+                      switchCheckedValue: fieldsDisplayState.shouldShowCompanyLogo,
+                      onSwitchChangeHandler: onSwitchChangeHandler,
+                    }}
+                    fieldName="companyLogo"
+                    onPictureChangedHandler={onCompanyLogoChangeHandler}
+                    onRemovePictureClickHandler={onRemoveCompanyLogoClickHandler}
+                    pictureIsRemoved={companyLogoIsRemoved}
+                    handleChange={handleChange}
+                    uploadedImageTitle={values.companyLogo}
+                    selectedPicture={selectedCompanyLogoURL}
                   />
-                  <Button
-                    variant="contained"
-                    component="label"
-                  >
-                    Upload File
-                    <input
-                      type="file"
-                      hidden
-                      accept='image/png, image/jpg'
-                      onChange={(event) => {
-                        handleChange(event);
-                        onCompanyLogoChangeHandler(event);
-                      }}
-                      id="company-logo"
-                    />
-                  </Button>
-                </Grid>
-                <Grid item sx={visibilityStyling} xs={2}>
-                  <FormGroup>
-                    <FormControlLabel control={<Switch defaultChecked />} label="Visible" />
-                  </FormGroup>
-                </Grid>
-              </Grid>
-              <Grid container>
-                <Grid item>
-                  <Typography component="h3" variant="h6">
-                    {selectedCompanyLogo ? selectedCompanyLogo.name : "Select Image"}
-                  </Typography>
                 </Grid>
               </Grid>
               <UserProfileTextAreaField
