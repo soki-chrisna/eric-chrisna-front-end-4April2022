@@ -201,6 +201,7 @@ const EditProfilePage = () => {
            
            onFormSubmitted(values);
 
+           alert("Data is saved.");
           //  alert(JSON.stringify(values, null, 2));
          }, 400);
        }}
